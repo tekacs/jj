@@ -28,6 +28,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Added `template-aliases.empty_commit_marker`. Users can override this value in
   their config to change the "(empty)" label on empty commits.
 
+* `jj bookmark track` can now associate new local bookmarks with remote.
+  [#7072](https://github.com/jj-vcs/jj/issues/7072)
+
 ### Fixed bugs
 
 * `jj metaedit --author-timestamp` twice with the same value no longer
