@@ -42,6 +42,13 @@ impl ConflictLabels {
         }
     }
 
+    /// Create a `ConflictLabels` from a `Vec<String>`, with an empty vec
+    /// representing no labels.
+    pub fn from_vec(labels: Vec<String>) -> Self {
+        let merge = (!labels.is_empty()).then(|| Merge::from_vec(labels));
+        Self::new(merge)
+    }
+
     /// Returns true if there are labels present.
     pub fn is_present(&self) -> bool {
         self.labels.is_some()
@@ -61,6 +68,12 @@ impl ConflictLabels {
     /// necessary.
     pub fn into_merge(self) -> Option<Merge<String>> {
         self.labels.map(Arc::unwrap_or_clone)
+    }
+
+    /// Returns the conflict labels as a slice. If there are no labels, returns
+    /// an empty slice.
+    pub fn as_slice(&self) -> &[String] {
+        self.as_merge().map_or(&[], |labels| labels.as_slice())
     }
 
     /// Returns optional labels for each term in a merge. If the merge is
