@@ -135,12 +135,20 @@ impl MergedTree {
     /// Tries to resolve any conflicts, resolving any conflicts that can be
     /// automatically resolved and leaving the rest unresolved.
     pub async fn resolve(self) -> BackendResult<Self> {
+        let num_sides = self.trees.num_sides();
         let merged = merge_trees(self.trees).await?;
         // If the result can be resolved, then `merge_trees()` above would have returned
         // a resolved merge. However, that function will always preserve the arity of
         // conflicts it cannot resolve. So we simplify the conflict again
         // here to possibly reduce a complex conflict to a simpler one.
-        let simplified = merged.simplify();
+        let (simplified, simplified_labels) = if merged.is_resolved() {
+            (merged, Merge::resolved(None))
+        } else {
+            merged
+                .zip(self.labels.by_term(num_sides, None))
+                .simplify_by(|(tree, _)| tree)
+                .unzip()
+        };
         // If debug assertions are enabled, check that the merge was idempotent. In
         // particular,  that this last simplification doesn't enable further automatic
         // resolutions
@@ -148,10 +156,9 @@ impl MergedTree {
             let re_merged = merge_trees(simplified.clone()).await.unwrap();
             debug_assert_eq!(re_merged, simplified);
         }
-        // TODO: retain labels
         Ok(Self {
             trees: simplified,
-            labels: ConflictLabels::unlabeled(),
+            labels: simplified_labels.transpose().into(),
         })
     }
 

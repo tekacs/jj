@@ -29,6 +29,7 @@ use std::sync::Arc;
 use futures::future::try_join_all;
 use itertools::Itertools as _;
 use smallvec::SmallVec;
+use smallvec::smallvec;
 use smallvec::smallvec_inline;
 
 use crate::backend::BackendResult;
@@ -202,6 +203,16 @@ impl<T> Merge<T> {
         }
     }
 
+    /// Creates a `Merge` by repeating a single value.
+    pub fn repeated(value: T, num_sides: usize) -> Self
+    where
+        T: Clone,
+    {
+        Self {
+            values: smallvec![value; num_sides * 2 - 1],
+        }
+    }
+
     /// Create a `Merge` from a `removes` and `adds`, padding with `None` to
     /// make sure that there is exactly one more `adds` than `removes`.
     pub fn from_legacy_form(
@@ -320,6 +331,20 @@ impl<T> Merge<T> {
         simplified_to_original_indices
     }
 
+    /// Apply the mapping returned by [`Self::get_simplified_mapping`].
+    #[must_use]
+    fn apply_simplified_mapping(&self, mapping: &[usize]) -> Self
+    where
+        T: Clone,
+    {
+        // Reorder values based on their new indices in the simplified merge.
+        let values = mapping
+            .iter()
+            .map(|index| self.values[*index].clone())
+            .collect();
+        Self { values }
+    }
+
     /// Simplify the merge by joining diffs like A->B and B->C into A->C.
     /// Also drops trivial diffs like A->A.
     #[must_use]
@@ -328,12 +353,18 @@ impl<T> Merge<T> {
         T: PartialEq + Clone,
     {
         let mapping = self.get_simplified_mapping();
-        // Reorder values based on their new indices in the simplified merge.
-        let values = mapping
-            .iter()
-            .map(|index| self.values[*index].clone())
-            .collect();
-        Self { values }
+        self.apply_simplified_mapping(&mapping)
+    }
+
+    /// Simplify the merge, using a function to choose which values to compare.
+    #[must_use]
+    pub fn simplify_by<'a, U>(&'a self, f: impl FnMut(&'a T) -> U) -> Self
+    where
+        T: Clone,
+        U: PartialEq,
+    {
+        let mapping = self.map(f).get_simplified_mapping();
+        self.apply_simplified_mapping(&mapping)
     }
 
     /// Updates the merge based on the given simplified merge.
@@ -420,6 +451,22 @@ impl<T> Merge<T> {
             values: values.into(),
         })
     }
+
+    /// Zip two merges which have the same number of terms. Panics if the merges
+    /// don't have the same number of terms.
+    pub fn zip<U>(self, other: Merge<U>) -> Merge<(T, U)> {
+        assert_eq!(self.values.len(), other.values.len());
+        let values = self.values.into_iter().zip(other.values).collect();
+        Merge { values }
+    }
+}
+
+impl<T, U> Merge<(T, U)> {
+    /// Unzips a merge of pairs into a pair of merges.
+    pub fn unzip(self) -> (Merge<T>, Merge<U>) {
+        let (left, right) = self.values.into_iter().unzip();
+        (Merge { values: left }, Merge { values: right })
+    }
 }
 
 /// Helper for consuming items from an iterator and then creating a `Merge`.
@@ -498,6 +545,14 @@ impl<T> Merge<Option<T>> {
     /// Returns the value if this is present and non-conflicting.
     pub fn as_normal(&self) -> Option<&T> {
         self.as_resolved()?.as_ref()
+    }
+
+    /// Convert a `Merge<Option<T>>` into an `Option<Merge<T>>`.
+    pub fn transpose(self) -> Option<Merge<T>> {
+        self.values
+            .into_iter()
+            .collect::<Option<_>>()
+            .map(|values| Merge { values })
     }
 
     /// Creates lists of `removes` and `adds` from a `Merge` by dropping
