@@ -28,6 +28,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Added `template-aliases.empty_commit_marker`. Users can override this value in
   their config to change the "(empty)" label on empty commits.
 
+* Conflicts resulting from merges now have labels indicating the change ID and
+  commit ID for each side.
+
 ### Fixed bugs
 
 * `jj metaedit --author-timestamp` twice with the same value no longer
