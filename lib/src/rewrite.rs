@@ -40,6 +40,7 @@ use crate::index::IndexError;
 use crate::matchers::Matcher;
 use crate::matchers::Visit;
 use crate::merge::Merge;
+use crate::merged_tree::MergeLabels;
 use crate::merged_tree::MergedTree;
 use crate::merged_tree::MergedTreeBuilder;
 use crate::merged_tree::TreeDiffEntry;
@@ -290,7 +291,18 @@ impl<'repo> CommitRewriter<'repo> {
             (
                 !old_base_tree.id().has_changes(self.old_commit.tree_id()),
                 new_base_tree
-                    .merge_unlabeled(old_base_tree, old_tree)
+                    .merge(
+                        old_base_tree,
+                        old_tree,
+                        MergeLabels {
+                            left: format!(
+                                "rebase destination ({})",
+                                new_parents.iter().map(Commit::conflict_label).join(", ")
+                            ),
+                            base: old_parents.iter().map(Commit::conflict_label).join(", "),
+                            right: format!("rebased commit ({})", self.old_commit.conflict_label()),
+                        },
+                    )
                     .await?
                     .id(),
             )
