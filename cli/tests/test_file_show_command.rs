@@ -106,7 +106,7 @@ fn test_show() {
     let output = work_dir.run_jj(["file", "show", "file1"]);
     insta::assert_snapshot!(output, @r"
     <<<<<<< Conflict 1 of 1
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     -b
     +a
     +++++++ Contents of side #2

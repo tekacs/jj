@@ -873,7 +873,7 @@ fn test_materialize_snapshot_conflicted_files() {
         std::fs::read_to_string(file1_path.to_fs_path_unchecked(&workspace_root)).ok().unwrap(),
         @r"
     <<<<<<< Conflict 1 of 1
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     -b
     +a
     +++++++ Contents of side #2
@@ -884,7 +884,7 @@ fn test_materialize_snapshot_conflicted_files() {
         std::fs::read_to_string(file2_path.to_fs_path_unchecked(&workspace_root)).ok().unwrap(),
         @r"
     <<<<<<< Conflict 1 of 1
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     -2
     +1
     +++++++ Contents of side #2
@@ -997,7 +997,7 @@ fn test_materialize_snapshot_unchanged_conflicts() {
     left 3.1
     left 3.2
     left 3.3
-    %%%%%%% Changes from base to side #2
+    %%%%%%% Changes in side #2 compared to base
     -line 3
     +right 3.1
     >>>>>>> Conflict 1 of 1 ends

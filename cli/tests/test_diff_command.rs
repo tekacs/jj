@@ -2535,7 +2535,7 @@ fn test_diff_conflict_sides_differ() {
     +left 3.1
     +left 3.2
     +left 3.3
-    +%%%%%%% Changes from base to side #2
+    +%%%%%%% Changes in side #2 compared to base
     +-line 3
     ++right 3.1
     +>>>>>>> Conflict 1 of 1 ends
@@ -2551,7 +2551,7 @@ fn test_diff_conflict_sides_differ() {
          [38;5;2m   5[39m: [4m[38;5;2mleft 3.1[24m[39m
          [38;5;2m   6[39m: [4m[38;5;2mleft 3.2[24m[39m
          [38;5;2m   7[39m: [4m[38;5;2mleft 3.3[24m[39m
-         [38;5;2m   8[39m: [4m[38;5;2m%%%%%%% Changes from base to side #2[24m[39m
+         [38;5;2m   8[39m: [4m[38;5;2m%%%%%%% Changes in side #2 compared to base[24m[39m
     [38;5;1m   3[39m [38;5;2m   9[39m: [4m[38;5;2m-[24m[39mline 3
          [38;5;2m  10[39m: [4m[38;5;2m+right 3.1[24m[39m
          [38;5;2m  11[39m: [4m[38;5;2m>>>>>>> Conflict 1 of 1 ends[24m[39m
@@ -2591,7 +2591,7 @@ fn test_diff_conflict_sides_differ() {
     -left 3.1
     -left 3.2
     -left 3.3
-    -%%%%%%% Changes from base to side #2
+    -%%%%%%% Changes in side #2 compared to base
     --line 3
     -+right 3.1
     ->>>>>>> Conflict 1 of 1 ends
@@ -2608,7 +2608,7 @@ fn test_diff_conflict_sides_differ() {
     [38;5;1m   5[39m     : [4m[38;5;1mleft 3.1[24m[39m
     [38;5;1m   6[39m     : [4m[38;5;1mleft 3.2[24m[39m
     [38;5;1m   7[39m     : [4m[38;5;1mleft 3.3[24m[39m
-    [38;5;1m   8[39m     : [4m[38;5;1m%%%%%%% Changes from base to side #2[24m[39m
+    [38;5;1m   8[39m     : [4m[38;5;1m%%%%%%% Changes in side #2 compared to base[24m[39m
     [38;5;1m   9[39m [38;5;2m   3[39m: [4m[38;5;1m-[24m[39mline 3
     [38;5;1m  10[39m     : [4m[38;5;1m+right 3.1[24m[39m
     [38;5;1m  11[39m     : [4m[38;5;1m>>>>>>> Conflict 1 of 1 ends[24m[39m
@@ -2647,7 +2647,7 @@ fn test_diff_conflict_sides_differ() {
     @@ -7,2 +7,3 @@
      left 3.3
     +left 3.4
-     %%%%%%% Changes from base to side #2
+     %%%%%%% Changes in side #2 compared to base
     @@ -12,2 +13,1 @@
      line 4
     -line 5
@@ -2660,7 +2660,7 @@ fn test_diff_conflict_sides_differ() {
         ...
     [38;5;1m   7[39m [38;5;2m   7[39m: left 3.3
          [38;5;2m   8[39m: [4m[38;5;2mleft 3.4[24m[39m
-    [38;5;1m   8[39m [38;5;2m   9[39m: %%%%%%% Changes from base to side #2
+    [38;5;1m   8[39m [38;5;2m   9[39m: %%%%%%% Changes in side #2 compared to base
         ...
     [38;5;1m  12[39m [38;5;2m  13[39m: line 4
     [38;5;1m  13[39m     : [4m[38;5;1mline 5[24m[39m
@@ -2813,7 +2813,7 @@ fn test_diff_conflict_bases_differ() {
     -line 1
      line 2
     @@ -8,3 +7,4 @@
-     %%%%%%% Changes from base to side #2
+     %%%%%%% Changes in side #2 compared to base
     --line 3
     +-line 3.1
     +-line 3.2
@@ -2825,7 +2825,7 @@ fn test_diff_conflict_bases_differ() {
     [38;5;1m   1[39m     : [4m[38;5;1mline 1[24m[39m
     [38;5;1m   2[39m [38;5;2m   1[39m: line 2
         ...
-    [38;5;1m   8[39m [38;5;2m   7[39m: %%%%%%% Changes from base to side #2
+    [38;5;1m   8[39m [38;5;2m   7[39m: %%%%%%% Changes in side #2 compared to base
     [38;5;1m   9[39m [38;5;2m   8[39m: -line 3[4m[38;5;2m.1[24m[39m
     [38;5;1m   9[39m [38;5;2m   9[39m: [4m[38;5;2m-line 3.2[24m[39m
     [38;5;1m  10[39m [38;5;2m  10[39m: +right 3.1
@@ -2973,12 +2973,12 @@ fn test_diff_conflict_three_sides() {
     +++ b/file
     @@ -2,3 +2,3 @@
      <<<<<<< Conflict 1 of 1
-    -%%%%%%% Changes from base to side #1
-    +%%%%%%% Changes from base #1 to side #1
+    -%%%%%%% Changes in side #1 compared to base
+    +%%%%%%% Changes in side #1 compared to base #1
      -line 2 base
     @@ -12,2 +12,5 @@
      line 4 b.2
-    +%%%%%%% Changes from base #2 to side #3
+    +%%%%%%% Changes in side #3 compared to base #2
     + line 2 base
     ++line 3 c.2
      >>>>>>> Conflict 1 of 1 ends
@@ -2988,11 +2988,11 @@ fn test_diff_conflict_three_sides() {
     [38;5;3mModified conflict in file:[39m
     [38;5;1m   1[39m [38;5;2m   1[39m: line 1
     [38;5;1m   2[39m [38;5;2m   2[39m: <<<<<<< Conflict 1 of 1
-    [38;5;1m   3[39m [38;5;2m   3[39m: %%%%%%% Changes from base [4m[38;5;2m#1 [24m[39mto side #1
+    [38;5;1m   3[39m [38;5;2m   3[39m: %%%%%%% Changes in side #1 compared to base[4m[38;5;2m #1[24m[39m
     [38;5;1m   4[39m [38;5;2m   4[39m: -line 2 base
         ...
     [38;5;1m  12[39m [38;5;2m  12[39m: line 4 b.2
-         [38;5;2m  13[39m: [4m[38;5;2m%%%%%%% Changes from base #2 to side #3[24m[39m
+         [38;5;2m  13[39m: [4m[38;5;2m%%%%%%% Changes in side #3 compared to base #2[24m[39m
          [38;5;2m  14[39m: [4m[38;5;2m line 2 base[24m[39m
          [38;5;2m  15[39m: [4m[38;5;2m+line 3 c.2[24m[39m
     [38;5;1m  13[39m [38;5;2m  16[39m: >>>>>>> Conflict 1 of 1 ends

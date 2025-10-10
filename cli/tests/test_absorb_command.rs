@@ -200,7 +200,7 @@ fn test_absorb_replace_single_line_hunk() {
     │  +++ b/file1
     │  @@ -1,10 +1,3 @@
     │  -<<<<<<< Conflict 1 of 1
-    │  -%%%%%%% Changes from base to side #1
+    │  -%%%%%%% Changes in side #1 compared to base
     │  --2a
     │  - 1a
     │  --2b
@@ -217,7 +217,7 @@ fn test_absorb_replace_single_line_hunk() {
        +++ b/file1
        @@ -0,0 +1,10 @@
        +<<<<<<< Conflict 1 of 1
-       +%%%%%%% Changes from base to side #1
+       +%%%%%%% Changes in side #1 compared to base
        +-2a
        + 1a
        +-2b
@@ -443,7 +443,7 @@ fn test_absorb_conflict() {
     let conflict_content = work_dir.read_file("file1");
     insta::assert_snapshot!(conflict_content, @r"
     <<<<<<< Conflict 1 of 1
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     +1a
     +1b
     +++++++ Contents of side #2
@@ -578,7 +578,7 @@ fn test_absorb_deleted_file_with_multiple_hunks() {
     │  +++ /dev/null
     │  @@ -1,7 +0,0 @@
     │  -<<<<<<< Conflict 1 of 1
-    │  -%%%%%%% Changes from base to side #1
+    │  -%%%%%%% Changes in side #1 compared to base
     │  --1a
     │  - 1b
     │  -+++++++ Contents of side #2
@@ -592,7 +592,7 @@ fn test_absorb_deleted_file_with_multiple_hunks() {
     │  +++ /dev/null
     │  @@ -1,6 +0,0 @@
     │  -<<<<<<< Conflict 1 of 1
-    │  -%%%%%%% Changes from base to side #1
+    │  -%%%%%%% Changes in side #1 compared to base
     │  - 1a
     │  -+1b
     │  -+++++++ Contents of side #2
@@ -602,7 +602,7 @@ fn test_absorb_deleted_file_with_multiple_hunks() {
     │  +++ b/file2
     │  @@ -1,7 +1,7 @@
     │   <<<<<<< Conflict 1 of 1
-    │   %%%%%%% Changes from base to side #1
+    │   %%%%%%% Changes in side #1 compared to base
     │  - 1a
     │  --1b
     │  +-1a
@@ -619,7 +619,7 @@ fn test_absorb_deleted_file_with_multiple_hunks() {
        +++ b/file1
        @@ -0,0 +1,6 @@
        +<<<<<<< Conflict 1 of 1
-       +%%%%%%% Changes from base to side #1
+       +%%%%%%% Changes in side #1 compared to base
        + 1a
        ++1b
        ++++++++ Contents of side #2
@@ -631,7 +631,7 @@ fn test_absorb_deleted_file_with_multiple_hunks() {
        +++ b/file2
        @@ -0,0 +1,7 @@
        +<<<<<<< Conflict 1 of 1
-       +%%%%%%% Changes from base to side #1
+       +%%%%%%% Changes in side #1 compared to base
        + 1a
        +-1b
        ++++++++ Contents of side #2

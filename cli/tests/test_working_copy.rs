@@ -336,7 +336,7 @@ fn test_conflict_marker_length_stored_in_working_copy() {
     insta::assert_snapshot!(work_dir.read_file("file"), @r"
     line 1
     <<<<<<<<<<< Conflict 1 of 1
-    %%%%%%%%%%% Changes from base to side #1
+    %%%%%%%%%%% Changes in side #1 compared to base
     -line 2
     -line 3
     +line 2 - left
@@ -367,7 +367,7 @@ fn test_conflict_marker_length_stored_in_working_copy() {
     insta::assert_snapshot!(output.normalize_stdout_with(redact_output), @r#"
     Current operation: OperationId("da3b34243efe5ea04830cd2211b5be79444fbc2ef23681361fd2f551ebb86772bff21695da95b72388306e028bf04c6d76db10bf4cbd3a08eb34bf744c8900c7")
     Current tree: MergedTreeId { tree_ids: Conflicted([TreeId("381273b50cf73f8c81b3f1502ee89e9bbd6c1518"), TreeId("771f3d31c4588ea40a8864b2a981749888e596c2"), TreeId("f56b8223da0dab22b03b8323ced4946329aeb4e0")]), labels: Unlabeled }
-    Normal { <executable> }           249 <timestamp> Some(MaterializedConflictData { conflict_marker_len: 11 }) "file"
+    Normal { <executable> }           256 <timestamp> Some(MaterializedConflictData { conflict_marker_len: 11 }) "file"
     [EOF]
     "#);
 

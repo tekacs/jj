@@ -451,13 +451,13 @@ fn test_diffedit_external_tool_conflict_marker_style() {
     +++++++ Contents of side #1
     line 2.1
     line 2.2
-    %%%%%%% Changes from base to side #2
+    %%%%%%% Changes in side #2 compared to base
     -line 2
     +line 2.3
     >>>>>>> Conflict 1 of 2 ends
     line 3
     <<<<<<< Conflict 2 of 2
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     -line 4
     +line 4.1
     +++++++ Contents of side #2
@@ -650,7 +650,7 @@ fn test_diffedit_merge() {
     let output = work_dir.run_jj(["file", "show", "file2"]);
     insta::assert_snapshot!(output, @r"
     <<<<<<< Conflict 1 of 1
-    %%%%%%% Changes from base to side #1
+    %%%%%%% Changes in side #1 compared to base
     -a
     +c
     +++++++ Contents of side #2

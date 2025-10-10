@@ -96,6 +96,18 @@ impl ConflictLabels {
             )
         }
     }
+
+    /// Get the label for a side at an index.
+    pub fn get_add(&self, add_index: usize) -> Option<&str> {
+        self.as_merge()
+            .and_then(|merge| merge.get_add(add_index).map(String::as_str))
+    }
+
+    /// Get the label for a base at an index.
+    pub fn get_remove(&self, remove_index: usize) -> Option<&str> {
+        self.as_merge()
+            .and_then(|merge| merge.get_remove(remove_index).map(String::as_str))
+    }
 }
 
 impl From<Option<Merge<String>>> for ConflictLabels {

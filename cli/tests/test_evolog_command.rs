@@ -74,7 +74,7 @@ fn test_evolog_with_or_without_diff() {
     │  -- operation 3499115d3831 snapshot working copy
     │  Resolved conflict in file1:
     │     1     : <<<<<<< Conflict 1 of 1
-    │     2     : %%%%%%% Changes from base to side #1
+    │     2     : %%%%%%% Changes in side #1 compared to base
     │     3     : -foo
     │     4     : +++++++ Contents of side #2
     │     5     : foo
@@ -165,7 +165,7 @@ fn test_evolog_with_or_without_diff() {
     +++ b/file1
     @@ -1,7 +1,1 @@
     -<<<<<<< Conflict 1 of 1
-    -%%%%%%% Changes from base to side #1
+    -%%%%%%% Changes in side #1 compared to base
     --foo
     -+++++++ Contents of side #2
     -foo
@@ -421,11 +421,11 @@ fn test_evolog_squash() {
     │ │ │     1     : <<<<<<< Conflict 1 of 1
     │ │ │     2     : +++++++ Contents of side #1
     │ │ │     3    1: squashed 2
-    │ │ │     4     : %%%%%%% Changes from base #1 to side #2
+    │ │ │     4     : %%%%%%% Changes in side #2 compared to base #1
     │ │ │     5     : +fourth
-    │ │ │     6    1: %%%%%%% Changes from base #2 to side #3
+    │ │ │     6    1: %%%%%%% Changes in side #3 compared to base #2
     │ │ │     7     : +fifth
-    │ │ │     8     : >>>>>>> Conflict 1 of 1 ends
+    │ │ │     8    1: >>>>>>> Conflict 1 of 1 ends
     │ │ ○  vruxwmqv hidden test.user@example.com 2001-02-03 08:05:15 770795d0
     │ │ │  fifth
     │ │ │  -- operation 1d38c000b52d snapshot working copy
@@ -453,9 +453,9 @@ fn test_evolog_squash() {
     │ │     1     : <<<<<<< Conflict 1 of 1
     │ │     2     : +++++++ Contents of side #1
     │ │     3    1: squashed 1
-    │ │     4    1: %%%%%%% Changes from base to side #2
+    │ │     4    1: %%%%%%% Changes in side #2 compared to base
     │ │     5     : +third
-    │ │     6     : >>>>>>> Conflict 1 of 1 ends
+    │ │     6    1: >>>>>>> Conflict 1 of 1 ends
     │ │  Removed regular file file2:
     │ │     1     : foo2
     │ │  Removed regular file file3:
@@ -484,7 +484,7 @@ fn test_evolog_squash() {
     │ │  -- operation 65c81703100d squash commits into 5878cbe03cdf599c9353e5a1a52a01f4c5e0e0fa
     │ │  Modified commit description:
     │ │     1     : <<<<<<< Conflict 1 of 1
-    │ │     2     : %%%%%%% Changes from base to side #1
+    │ │     2     : %%%%%%% Changes in side #1 compared to base
     │ │     3     : +first
     │ │     4     : +++++++ Contents of side #2
     │ │     5     : second
